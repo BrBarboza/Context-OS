@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.5.0 — dual-mode: Manual e Autonomous
+
+- **Field test da v1 encerrado antecipadamente.** Uso real (Ezer)
+  mostrou locate/commit funcionando bem — o atrito nao era qualidade
+  de contexto, era o workflow exigir confirmacao manual em cada etapa.
+  Tabela de 30 tarefas nao foi completada; decisao registrada em
+  `docs/DECISIONS.md` com o motivo. `docs/FIELD-TEST.md` marcado
+  encerrado, mantido como registro historico do protocolo.
+- **2 comandos novos.** `/ctxos:manual` (`commands/manual.md`) —
+  controle total, para e espera confirmacao antes de implementar e
+  antes de commitar. `/ctxos:autonomous` (`commands/autonomous.md`) —
+  usuario conversa normal, agente orquestra locate→implementa→commit
+  internamente sem pausar, exceto quando o trabalho toca decisao
+  arquitetural (doc do projeto, infra/CI, dependencia, schema, ou
+  locate devolve NOVO CONCEITO). Nenhum dos dois e mecanismo novo —
+  so orquestram locate/commit ja existentes, sem scheduler, sem
+  engine, sem estado persistido em arquivo (modo vive na conversa).
+- **`docs/parking-lot.md` esvaziado.** Item "execucao autonoma"
+  resolvido pelos 2 comandos acima.
+- **README reescrito do zero pra quem nunca viu o projeto.** Beneficio
+  primeiro, sem arquitetura interna. Primeiros 30 segundos mostram so
+  index/manual/autonomous.
+- **Nao afetado:** `commands/index.md`, `commands/locate.md`,
+  `commands/commit.md` (logica intacta), `commands/doctor.md`,
+  `docs/ADAPTERS.md`, `docs/LOOPTEAM.md`, `docs/JUDGING.md`
+  (continuam congelados como experimental).
+
 ## v0.4.0 — reset pra MVP de campo
 
 - **Escopo travado.** README reduzido a 3 passos (instalar, index, loop

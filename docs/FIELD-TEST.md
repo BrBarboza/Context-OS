@@ -1,3 +1,8 @@
+**Encerrado em 2026-07-17 — decisao antecipada, nao pela tabela de 30
+tarefas (nunca preenchida).** Ver `docs/DECISIONS.md`. Protocolo e
+metricas abaixo mantidos como registro historico do que teria sido
+medido.
+
 # Teste de campo — protocolo v1
 
 Protocolo de validacao empirica do ctxos. Unica pergunta em aberto:
@@ -51,10 +56,10 @@ v1 termina quando existirem:
 Nenhuma decisao sobre ctxos virar produto, virar kernel, ganhar scheduler,
 ou nunca ganhar scheduler, e tomada antes desse ponto.
 
-## Aprendizados do Field Test (parcial)
+## Aprendizados do Field Test (sinal qualitativo, decisao antecipada)
 
-Fatos observados durante o field test. Sem conclusao arquitetural, sem
-virar feature — so registro.
+Fatos observados durante o field test — base da decisao de encerrar
+antes da tabela de 30 tarefas. Ver `docs/DECISIONS.md`.
 
 - O locate forneceu contexto suficiente pra execucoes longas.
 - O agente consegue decompor tarefas internamente.

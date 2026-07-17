@@ -1,123 +1,91 @@
 # Context OS (ctxos)
 
-Plugin do Claude Code que da contexto de codigo pro agente sem ele
-precisar varrer o projeto inteiro toda vez.
-
 ## O que e
 
-Um mapa incremental do seu projeto, guardado em `.ctxos/`. Cada
-diretorio relevante vira um "no" — um arquivo curto (`.ctxos/index/
-<caminho>.md`) que resume pra que serve aquele pedaco de codigo, quais
-arquivos importam e com o que ele se conecta. O agente le esse mapa
-antes de mexer em qualquer coisa, em vez de ler o repositorio inteiro.
+Plugin do Claude Code que da ao agente so o contexto de codigo que ele
+precisa pra cada tarefa — em vez dele ler o projeto inteiro (caro,
+lento) ou trabalhar as cegas (erra o alvo). Resultado: respostas mais
+rapidas, mais precisas, e um agente que lembra decisoes ja tomadas no
+seu projeto.
 
-## Problema que resolve
-
-Sem esse mapa, o LLM tem duas opcoes ruins: varrer o codigo inteiro
-toda tarefa (caro, lento, estoura contexto em projetos grandes) ou
-trabalhar as cegas com pouco contexto (erra o arquivo, erra a funcao).
-Ctxos mantem o mapa atualizado incrementalmente pra devolver so o
-pedaco certo, toda vez, sem reescanear o projeto do zero.
-
-## Como funciona (3 etapas)
-
-1. **index** — roda uma vez, no inicio do projeto. Varre tudo e cria
-   o mapa em `.ctxos/` (um "no" por diretorio relevante).
-2. **locate** — a cada pedido, le so o mapa (nunca o codigo inteiro),
-   acha o(s) no(s) relacionados e devolve pro agente uma lista minima
-   de arquivos pra abrir.
-3. **commit** — depois que o agente mexeu no codigo, atualiza so os
-   nos que a tarefa tocou (nunca o mapa inteiro) e registra as
-   decisoes tomadas.
-
-Exemplo pratico:
-
-```
-/ctxos:locate "adicionar botao de logout no header"
-→ no: src/components/Header
-→ arquivos: Header.tsx, useAuth.ts
-→ memoria: "logout ja usa useAuth().signOut(), nao criar hook novo"
-```
-
-## Instalar
-
-Requer [Claude Code](https://claude.com/claude-code) com plugins
-habilitados.
+## Como instalar
 
 ```bash
 /plugin marketplace add BrBarboza/Context-OS
 /plugin install ctxos@ctxos
 ```
 
-Alterou o plugin?
+## Primeiros 30 segundos
 
 ```bash
-git push
-/plugin update
-/reload-plugins
+/ctxos:index          # 1x, no inicio do projeto
+/ctxos:manual         # controle total (padrao)
+/ctxos:autonomous     # conversa normal, agente cuida do resto
 ```
 
-## Fluxo recomendado
+So isso pra comecar. O resto e detalhe.
 
-`index` roda uma vez. Depois disso, todo pedido segue esse ciclo:
+## Manual Mode
+
+Use quando quer acompanhar cada passo: arquitetura, refatoracao
+delicada, investigacao, debugging.
 
 ```
-/ctxos:locate <pedido>
-   ↓
-(desenvolvimento livre pelo agente)
-   ↓
-/ctxos:commit <resumo>
+voce:  /ctxos:locate "por que o login as vezes nao redireciona"
+ctxos: no achado, arquivos X e Y — aguardando confirmacao pra mexer
+voce:  pode implementar
+ctxos: implementado — aguardando confirmacao pro commit
+voce:  /ctxos:commit "corrige redirect condicional no login"
 ```
 
-O desenvolvimento entre locate e commit pode acontecer numa unica
-execucao longa. Dado contexto suficiente do locate e uma autorizacao
-explicita ("pode implementar tudo"), o agente decompoe a tarefa
-internamente, implementa varios itens em sequencia e so interrompe em
-bloqueios reais de negocio. Context OS nao exige que o usuario
-trabalhe em microetapas nem confirme cada passo.
+Cada etapa espera voce.
+
+## Autonomous Mode
+
+Use no dia a dia: pedidos concretos, feature pequena/media, bug
+conhecido. Voce so conversa — nao precisa chamar locate nem commit.
+
+```
+voce:  remove a navbar da pagina de checkout
+ctxos: [trabalha sozinho]
+ctxos: feito — navbar removida em Checkout.tsx, testes passando,
+       commit registrado
+```
+
+Autonomous para e pergunta so quando a mudanca sai do codigo e entra
+em decisao de arquitetura (dependencia nova, schema de banco, CI/CD,
+docs do projeto). Pra codigo dentro do que ja existe, ele decide e
+entrega.
 
 ## Filosofia
 
-- **indice incremental** — nunca varredura ampla fora do index inicial.
-- **contexto minimo** — locate devolve so o raio necessario, nao o
-  projeto inteiro.
-- **memoria evolutiva** — decisoes ficam registradas nos nos que
-  tocam, cresce junto com o projeto.
-- **sem contexto infinito** — nada de acumular tudo pra sempre; no
-  saturado faz split.
+Manual = controle. Autonomous = velocidade. Mesmo mecanismo por
+baixo — o que muda e quanto voce quer ser consultado no meio do
+caminho.
 
-## Field Test
+## O que acontece internamente
 
-v1 esta em validacao empirica. Protocolo completo, metricas e
-criterio de encerramento em `docs/FIELD-TEST.md`.
+Voce nao precisa saber disso pra usar a ferramenta — mas se quiser
+entender: Autonomous roda, pra cada pedido,
 
-Unica pergunta em aberto: **o indice incremental reduz o custo de
-contexto sem reduzir a qualidade das entregas?** Ainda nao confirmada.
+```
+locate (acha o codigo certo)
+   ↓
+implementacao
+   ↓
+commit (atualiza o mapa do projeto)
+```
 
-Encerra quando 30 tarefas reais estiverem registradas, as 5 metricas
-preenchidas, e houver conclusao objetiva — hipotese confirmada ou
-rejeitada. Nenhuma decisao de arquitetura (produto, scheduler, comando
-novo) e tomada antes disso.
+automaticamente, sem pausar entre as etapas. Manual roda o mesmo
+funil, so que parando antes de implementar e antes de commitar.
 
-Aprendizados parciais (fatos observados, sem conclusao arquitetural)
-tambem ficam em `docs/FIELD-TEST.md`.
+## Fora de escopo
 
-**Context OS esta em validacao. Use, meca, e so depois evolua.**
-
-## Escopo congelado (Experimental)
-
-Fora do escopo desta fase, congelado, nao evolui ate a pergunta do
-field test ter resposta:
-
-- `/ctxos:doctor` (`commands/doctor.md`)
-- Adapters opcionais (`docs/ADAPTERS.md`)
-- Integracao LoopTeam (`docs/LOOPTEAM.md`)
-- Rubrica de julgamento (`docs/JUDGING.md`)
-- Decisoes futuras (`docs/DECISIONS.md`)
-
-Ideias fora de escopo (scheduler, workers, supervisor, roteamento por
-modelo, policies, engine, research, telemetria, execucao autonoma)
-ficam em `docs/parking-lot.md`, nao aqui.
+`/ctxos:doctor`, adapters, integracao LoopTeam e rubrica de julgamento
+seguem congelados como experimental — nao fazem parte do uso normal.
+Ideias novas fora de escopo vao pra `docs/parking-lot.md`. Decisoes
+arquiteturais do proprio ctxos ficam registradas em
+`docs/DECISIONS.md`.
 
 ## Changelog
 
