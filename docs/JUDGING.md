@@ -1,3 +1,6 @@
+**Experimental — fora do escopo da v1.** Congelado ate `docs/FIELD-TEST.md`
+confirmar a hipotese central. Nao remover, nao evoluir, nao discutir.
+
 # Rubrica de avaliacao do ctxos
 
 Peso ponderado. Meta: nota ponderada ≥8.8, com manutencao-zero = 10 obrigatorio

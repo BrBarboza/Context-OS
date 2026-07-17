@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "ctxos",
   "displayName": "Context OS",
-  "version": "0.3.1",
-  "description": "Camada de contexto pra LLM em projetos de codigo: 4 planos markdown (index, grafo, memoria, ledger) que vivem como cache de conteudo (fingerprint sha256, imune a rebase/squash), nunca editados a mao. Estado de mecanismo (runtime/) separado do conhecimento do projeto. index bootstrap, locate acha onde mexer e declara conceito novo, commit atualiza e divide nos saturados como efeito colateral do trabalho.",
+  "version": "0.4.0",
+  "description": "Camada de contexto pra LLM em projetos de codigo: index/locate/commit incremental como cache de conteudo (fingerprint sha256, imune a rebase/squash), nunca editado a mao. v1 MVP de campo: valida se indice incremental reduz custo de contexto sem reduzir qualidade. doctor/adapters/loopteam/judging congelados como experimental ate a hipotese ser confirmada ou rejeitada.",
   "author": {
     "name": "Bruno Silva"
   },

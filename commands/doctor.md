@@ -1,8 +1,11 @@
 ---
-description: Diagnostico read-only dos 4 planos + runtime. So roda sob pedido explicito do usuario — nunca sugerir execucao periodica (violaria o Axioma 0). Nunca repara, so reporta.
+description: "[EXPERIMENTAL — fora do escopo da v1, congelado] Diagnostico read-only dos 4 planos + runtime. So roda sob pedido explicito do usuario — nunca sugerir execucao periodica (violaria o Axioma 0). Nunca repara, so reporta."
 argument-hint: "[--report]"
 disable-model-invocation: true
 ---
+
+**Experimental — fora do escopo da v1.** Congelado ate `docs/FIELD-TEST.md`
+confirmar a hipotese central. Nao remover, nao evoluir, nao discutir.
 
 Sem `.ctxos/ledger/current.md`: pare, avise "rode /ctxos:index primeiro" — doctor nao bootstrapa.
 

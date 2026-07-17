@@ -1,3 +1,6 @@
+**Experimental — fora do escopo da v1.** Congelado ate `docs/FIELD-TEST.md`
+confirmar a hipotese central. Nao remover, nao evoluir, nao discutir.
+
 # Decisions
 
 Decision Records do proprio Context OS — nao do `.ctxos/memory` de um

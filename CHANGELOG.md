@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.4.0 — reset pra MVP de campo
+
+- **Escopo travado.** README reduzido a 3 passos (instalar, index, loop
+  locate→edite→commit) — sem diagramas, sem teoria, sem secao de
+  arquitetura. Unica pergunta em aberto declarada: indice incremental
+  reduz custo de contexto sem reduzir qualidade? Resto e consequencia
+  dessa resposta.
+- **Congelados como Experimental.** `commands/doctor.md`,
+  `docs/ADAPTERS.md`, `docs/LOOPTEAM.md`, `docs/JUDGING.md`,
+  `docs/DECISIONS.md` — banner adicionado em cada um, nenhum removido,
+  nenhum evoluido, nenhuma discussao ate a v1 concluir.
+- **`docs/FIELD-TEST.md` reduzido a 5 metricas.** Precisao do locate,
+  tempo, tokens, drift, UX (0-10 por sessao). Metricas antigas (saltos do
+  funil, raio do grafo, degradacao pos-100-commits etc.) marcadas fora do
+  escopo da v1. Definition of Done explicita: 30 tarefas reais + 5
+  metricas preenchidas + conclusao objetiva (confirmada/rejeitada).
+- **`docs/parking-lot.md` (novo).** Ideias que surgirem durante a v1
+  (scheduler, workers, supervisor, roteamento por modelo, policies,
+  engine, research, telemetria) entram aqui como 1 frase, nunca
+  implementadas nesta fase.
+- **Mantido sem alteracao de logica:** `commands/index.md`,
+  `commands/locate.md`, `commands/commit.md`, marketplace.
+
 ## v0.3.1 — destravar instalacao + instrumento de diagnostico
 
 - **X1 — Marketplace.** Novo `.claude-plugin/marketplace.json` (repo serve

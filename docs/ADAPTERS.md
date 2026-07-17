@@ -1,3 +1,6 @@
+**Experimental — fora do escopo da v1.** Congelado ate `docs/FIELD-TEST.md`
+confirmar a hipotese central. Nao remover, nao evoluir, nao discutir.
+
 # Adapters opcionais (documentacao — nunca dependencia)
 
 ctxos funciona 100% so com leitura de arquivo + git opcional. Ferramentas de

@@ -1,3 +1,6 @@
+**Experimental — fora do escopo da v1.** Congelado ate `docs/FIELD-TEST.md`
+confirmar a hipotese central. Nao remover, nao evoluir, nao discutir.
+
 # Ponte com LoopTeam (documentacao — nao implementada como dependencia)
 
 ctxos e standalone. Os 3 comandos (`index`, `locate`, `commit`) funcionam em
