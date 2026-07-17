@@ -50,3 +50,12 @@ v1 termina quando existirem:
 
 Nenhuma decisao sobre ctxos virar produto, virar kernel, ganhar scheduler,
 ou nunca ganhar scheduler, e tomada antes desse ponto.
+
+## Aprendizados do Field Test (parcial)
+
+Fatos observados durante o field test. Sem conclusao arquitetural, sem
+virar feature — so registro.
+
+- O locate forneceu contexto suficiente pra execucoes longas.
+- O agente consegue decompor tarefas internamente.
+- As interrupcoes observadas foram de negocio, nao de codigo.
