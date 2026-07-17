@@ -14,7 +14,8 @@ argument-hint: "[opcional: caminho/escopo a indexar; vazio = projeto inteiro]"
 6. Escrever `.ctxos/graph.md`: so arestas que um dev senior anotaria — import cross-modulo, estilo compartilhado, teste que cobre outro no, doc que descreve outro no. Formato `A -> B (motivo em 2-4 palavras)`, agrupado por origem.
 7. Passe final da thread principal sobre todo `.ctxos/index/*.md` gerado por subagente: valida ordem/presenca dos campos, teto de linhas, nomenclatura — corrige SO estrutura, nunca reescreve o conteudo de um campo.
 8. Criar `.ctxos/memory/` vazio — Decision Records nascem no commit.
-9. Escrever `.ctxos/ledger/current.md`: o que o projeto e (5 linhas) · em andamento · ultimas decisoes (vazio) · pendencias · `verified:` (fingerprint do `ROOT.md`). ≤1 pagina.
-10. Criar `.ctxos/BACKLOG.md` SO se nao existir — unica escrita humana. Skeleton: `- [ ] <desejo> — pronto quando: <criterio mensuravel>`. Item fechado migra depois pra `.ctxos/history/<slug>.md`, 1 arquivo por item.
+9. Criar `.ctxos/runtime/state.md`: `last_scan.commit` (`git rev-parse --short HEAD` ou `no-git`) + `timestamp`, `tracked_files:` (`git ls-files | wc -l` ou `find . -type f | wc -l`). Criar `.ctxos/runtime/judgments.log` vazio — mecanismo, nunca conhecimento do projeto, por isso vive fora do ledger.
+10. Escrever `.ctxos/ledger/current.md`: o que o projeto e (5 linhas) · em andamento · ultimas decisoes (vazio) · pendencias · `verified:` (fingerprint do `ROOT.md`). ≤1 pagina. So conhecimento do projeto — nada de estado de mecanismo aqui.
+11. Criar `.ctxos/BACKLOG.md` SO se nao existir — unica escrita humana. Skeleton: `- [ ] <desejo> — pronto quando: <criterio mensuravel>`. Item fechado migra depois pra `.ctxos/history/<slug>.md`, 1 arquivo por item.
 
 Nunca reexecutar index sozinho depois disso. Toda mudanca futura passa por `/ctxos:locate` e `/ctxos:commit`.

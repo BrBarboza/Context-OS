@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.3.0 — rodada 3 de revisao dupla convergiu
+
+- **W1 — Estado do mecanismo separado do estado do projeto.** Novo
+  `.ctxos/runtime/state.md`: `last_scan` (commit+timestamp), contadores
+  operacionais (`tracked_files:`). "Ultimo commit conhecido" sai do ledger
+  (nunca esteve la formalmente, mas era ambiguo) e vive so aqui. Ledger
+  volta a ser SO conhecimento do projeto.
+- **W2 — Atalho git condicionado a porte.** `locate`/`commit`: projeto ≤200
+  arquivos rastreados → ignora git, fingerprint direto em todos os
+  candidatos (custo ~zero). >200 → git diff vira shortlist, fingerprint
+  decide. Contagem cacheada em `runtime/state.md`.
+- **W3 — Locate declara conceito novo.** Fallback do funil: grep tambem nao
+  achou nada relevante → saida obrigatoria "NOVO CONCEITO — nenhum no
+  existente cobre '<pedido>'". Nunca termina mudo.
+- **W4 — Justificativa logada de decisao binaria de julgamento.** Novo
+  `.ctxos/runtime/judgments.log` (append-only): 1 linha por decisao de
+  auto-invocacao do locate e por avaliacao de drift, sim ou nao. Interno,
+  nunca exibido ao usuario — calibracao futura de taxa de acerto. >200
+  linhas → arquiva em `runtime/archive/`.
+- **W5 — Snapshot: gatilho duplo.** `ledger/history/AAAA-MM.md` dispara por
+  mes novo OU por recompactacao que corta o current em >50% das linhas —
+  cobre compactacao destrutiva fora de calendario.
+- **W6 — Split estrutural por efeito colateral.** No saturado — index nao
+  cabe em 15 linhas sem perder informacao, OU 2o drift no MESMO no, OU
+  `arquivos:` >10 — divide na mesma passada do commit que o tocou: novos
+  nos herdam arquivos/entradas/arestas/memoria, ROOT atualizado, log
+  "split: <no> → <herdeiro1>+<herdeiro2>". Nunca auditoria periodica.
+- **Novo:** `docs/FIELD-TEST.md` — protocolo de validacao empirica (nao
+  executado): alvo SaaS real ~50 arquivos, baseline ~150k tokens/sessao,
+  9 metricas (M1-M9) + criterio de morte (ctxos >10-15% do custo de
+  inferencia do fluxo = arquitetura falhou).
+
 ## v0.2.0 — arbitragem de revisao dupla (2 LLMs + arquiteto)
 
 - **V1 — Fingerprint substitui commit-hash.** `verified:` agora e sha256 de

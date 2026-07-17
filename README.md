@@ -28,14 +28,23 @@ atualiza como efeito colateral de `/ctxos:index` (uma vez) e `/ctxos:commit`
 - **`.ctxos/memory/<no>.md`** — Decision Records atomicos por no do index.
   `>10` registros num no compacta em bloco "estado atual" + arquivo em
   `.ctxos/memory/archive/`.
-- **`.ctxos/ledger/current.md`** — estado vivo do projeto, sempre ≤1 pagina,
-  recompactado a cada commit. E o arquivo que torna uma sessao nova produtiva
-  sozinho. `.ctxos/ledger/history/AAAA-MM.md` guarda 1 snapshot automatico
-  do `current.md` por mes, tirado antes da 1a compactacao do mes.
+- **`.ctxos/ledger/current.md`** — SO conhecimento do projeto, sempre ≤1
+  pagina, recompactado a cada commit. E o arquivo que torna uma sessao nova
+  produtiva sozinho. `.ctxos/ledger/history/AAAA-MM.md` guarda 1 snapshot
+  automatico do `current.md`, disparado por mes novo OU por recompactacao
+  que corta o current em >50% das linhas (compactacao destrutiva fora de
+  calendario).
 
 Mais `.ctxos/BACKLOG.md` (fila humana, unica escrita manual) e
 `.ctxos/history/<slug-do-item>.md` (1 arquivo por item fechado, nao relido
 por padrao).
+
+**`.ctxos/runtime/`** — estado de MECANISMO, nunca conhecimento do projeto,
+por isso fora do ledger: `state.md` (`last_scan.commit`+`timestamp`,
+`tracked_files:` cacheado) e `judgments.log` (append-only, 1 linha por
+decisao binaria de julgamento — auto-invocacao do locate, deriva semantica
+— interno, nunca exibido ao usuario, >200 linhas arquiva em
+`runtime/archive/`).
 
 ## Os 3 comandos
 
@@ -43,14 +52,18 @@ por padrao).
   sob pedido explicito). Subagente isolado por modulo acima de ~30k tokens
   estimados (bytes/4). Nunca roda sozinha de novo.
 - **`/ctxos:locate <pedido>`** — o coracao. Funil ROOT → index do modulo →
-  arquivo/simbolo, com staleness via fingerprint (git diff so acelera a
-  shortlist, nunca decide) e reparo integral a cada salto. Auto-invocavel
-  so quando o pedido nao nomeia o alvo direto. Saida ≤12 linhas: no(s) +
-  raio + memoria + lista minima de arquivos.
+  arquivo/simbolo, com staleness via fingerprint (projeto ≤200 arquivos
+  rastreados ignora git de vez, fingerprint direto; acima disso git diff so
+  acelera a shortlist, nunca decide) e reparo integral a cada salto.
+  Auto-invocavel so quando o pedido nao nomeia o alvo direto. Nada cobre o
+  pedido nem por busca → declara "NOVO CONCEITO" explicito, nunca termina
+  mudo. Saida ≤12 linhas: no(s) + raio + memoria + lista minima de arquivos.
 - **`/ctxos:commit <resumo>`** — write-through pos-trabalho. So atualiza nos
   cujo fingerprint divergiu. Diretorio novo → index nasce aqui, nunca em
   varredura. Detecta deriva semantica (`proposito:` que nao cobre mais o
-  que o no faz) e corrige na mesma passada.
+  que o no faz) e corrige na mesma passada. No saturado (index nao cabe em
+  15 linhas, 2o drift no mesmo no, ou >10 arquivos-chave) → split na mesma
+  passada, nunca auditoria periodica.
 
 Uso manual tipico: `locate` antes de mexer, `commit` depois. Standalone —
 funciona em qualquer projeto, com ou sem outros plugins, com ou sem git.
@@ -75,6 +88,13 @@ arquivo. Ele tem que conseguir continuar o projeto lendo `ledger/current.md`
 Se a resposta for "nao, precisa do plugin pra entender o estado", o design
 falhou: tudo em `.ctxos/` e markdown convencional, sem sintaxe proprietaria,
 sem campo que so o plugin sabe interpretar.
+
+## Teste de campo
+
+Protocolo de validacao empirica (nao executado ainda) — ver
+`docs/FIELD-TEST.md`. 9 metricas (M1-M9) + criterio de morte: ctxos
+consumindo >10-15% do custo total de inferencia do fluxo = arquitetura
+falhou.
 
 ## Rubrica
 
