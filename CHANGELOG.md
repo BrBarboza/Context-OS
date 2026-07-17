@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.3.1 — destravar instalacao + instrumento de diagnostico
+
+- **X1 — Marketplace.** Novo `.claude-plugin/marketplace.json` (repo serve
+  como marketplace proprio, mesmo formato validado no LoopTeam/Caveman).
+  README: secao de instalacao trocada pelos 2 comandos literais
+  (`/plugin marketplace add` + `/plugin install ctxos@ctxos`) + nota de
+  atualizacao (`git push` → `/plugin update` → `/reload-plugins`).
+- **X2 — `/ctxos:doctor` (4o comando).** Diagnostico read-only sob demanda
+  dos 4 planos + runtime: fingerprint stale (index), aresta orfa (graph),
+  arquivo orfao/no sem destilacao (memory), pagina estourada/verified
+  divergente (ledger), judgments.log sem arquivamento (runtime). Nunca
+  repara — reparo continua sendo papel de locate/commit. Nunca recomenda
+  execucao periodica (Axioma 0). Substitui de vez qualquer nocao de comando
+  `audit` separado — doctor absorve o escopo. Flag `--report` pra tabela
+  completa por plano.
+- **X3 — Decision Record.** `docs/DECISIONS.md`: rejeitado confidence score
+  continuo — fingerprint ja e confianca binaria (match/mismatch), score
+  continuo exigiria calibracao permanente, o que viola o Axioma 0. Encerra
+  a discussao do feedback arquitetural v0.2.
+
 ## v0.3.0 — rodada 3 de revisao dupla convergiu
 
 - **W1 — Estado do mecanismo separado do estado do projeto.** Novo

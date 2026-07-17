@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ctxos",
+  "description": "Camada de contexto pra LLM em projetos de codigo: 4 planos markdown (index, grafo, memoria, ledger) que vivem como cache de conteudo, imunes a rebase/squash, nunca editados a mao.",
+  "owner": {
+    "name": "Bruno Silva"
+  },
+  "plugins": [
+    {
+      "name": "ctxos",
+      "description": "index bootstrap, locate acha onde mexer, commit atualiza planos e divide nos saturados como efeito colateral do trabalho.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

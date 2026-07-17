@@ -102,10 +102,21 @@ Ver `docs/JUDGING.md`. Meta ≥8.8 ponderado, manutencao-zero = 10 obrigatorio.
 
 ## Instalar
 
-Plugin local — adicionar este diretorio como marketplace local no Claude
-Code (`/plugin marketplace add <caminho-desta-pasta>` ou equivalente na
-configuracao de plugins) e habilitar `ctxos`. Depois disso, `/ctxos:index`
-uma vez por projeto, `/ctxos:locate` e `/ctxos:commit` no dia a dia.
+```bash
+/plugin marketplace add BrBarboza/Context-OS
+/plugin install ctxos@ctxos
+```
+
+Depois disso, `/ctxos:index` uma vez por projeto, `/ctxos:locate` e
+`/ctxos:commit` no dia a dia.
+
+Alterou o plugin?
+
+```text
+git push
+/plugin update
+/reload-plugins
+```
 
 ## Changelog
 
