@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "ctxos",
   "displayName": "Context OS",
-  "version": "0.6.0",
-  "description": "Camada de contexto pra LLM em projetos de codigo: index/locate/commit incremental como cache de conteudo (fingerprint sha256, imune a rebase/squash), nunca editado a mao. `/ctxos:mode` (manual/autonomous), `/ctxos:think` (fast/normal/deep) e `/ctxos:output` (compact/verbose) sao eixos independentes de configuracao de sessao, sem estado persistido em arquivo. doctor/adapters/loopteam/judging continuam congelados como experimental.",
+  "version": "0.6.1",
+  "description": "Camada de contexto pra LLM em projetos de codigo: index/locate/commit incremental como cache de conteudo (fingerprint sha256, imune a rebase/squash), nunca editado a mao. `/ctxos:mode` (manual/autonomous), `/ctxos:think` (fast/normal/deep) e `/ctxos:output` (compact/verbose) sao eixos independentes de configuracao de sessao, sem estado persistido em arquivo. `/ctxos:status` reporta diagnostico read-only da sessao e do projeto sob demanda. doctor/adapters/loopteam/judging continuam congelados como experimental.",
   "author": {
     "name": "Bruno Silva"
   },

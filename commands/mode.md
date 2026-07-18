@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 `/ctxos:mode <valor>` atualiza SO `Mode` — `Think`/`Output` continuam com o ultimo valor ativado (ou default, se nunca setados). Uma vez `Mode` ativado, TODA mensagem seguinte nesta conversa — comando explicito ou linguagem natural, sem precisar chamar `/ctxos:mode` de novo — segue automaticamente o modo corrente abaixo, usando o `Think`/`Output` correntes nos passos indicados.
 
-Toda resposta operacional (qualquer resposta que rodou locate/implementacao/commit) abre com o header de `/ctxos:output` — `Mode:`/`Think:`/`Output:` correntes, sempre, independente de qual dos 3 comandos foi chamado por ultimo.
+Nenhuma resposta abre com bloco de estado. Pra consultar `Mode`/`Think`/`Output` correntes (e o estado do projeto), `/ctxos:status`.
 
 ## manual
 
@@ -36,7 +36,7 @@ Pra cada pedido em linguagem natural (sem o usuario precisar chamar `/ctxos:loca
 1. Rodar o funil de `/ctxos:locate` internamente. Mostrar o resultado so se for relevante pro usuario acompanhar, nunca como espera de confirmacao.
 2. Implementar o pedido inteiro — decompor em quantos passos internos precisar, reusar contexto entre eles, sem pausar entre itens. Esforco de raciocinio segue o `Think` corrente.
 3. Rodar `/ctxos:commit` internamente ao fim do trabalho (ou ao fim de cada unidade logica, se o pedido for grande e heterogeneo).
-4. Entregar 1 resumo final consolidado do que foi feito, no formato do `Output` corrente (header + corpo).
+4. Entregar 1 resumo final consolidado do que foi feito, no formato do `Output` corrente.
 
 PARAR e pedir confirmacao explicita (nunca decidir sozinho) quando o trabalho tocar:
 

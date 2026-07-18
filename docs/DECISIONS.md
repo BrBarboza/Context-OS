@@ -3,6 +3,20 @@
 Decision Records do proprio Context OS — nao do `.ctxos/memory` de um
 projeto consumidor (este repo nao roda ctxos sobre si mesmo).
 
+## 2026-07-18 — header removido, `/ctxos:status` vira diagnostico sob demanda
+
+Motivo: header `CTXOS / Mode / Think / Output` cumpriu papel de validacao
+durante os testes iniciais, mas poluir toda resposta operacional com estado
+nao e a UX desejada pro uso diario. Estado consultado sob demanda, nao
+empurrado em toda resposta.
+
+Resultado: `commands/status.md` (novo) — 3 blocos (SESSION/PROJECT/RUNTIME),
+so leitura, nunca repara. `mode.md`/`output.md` perderam a instrucao de
+emitir header; comportamento de mode/think/output nao muda, so a
+apresentacao. Metrica de token/custo/tempo dentro do status ficou de fora
+desta rodada (parking-lot) — mesma razao ja registrada abaixo pro painel
+estilo Ruflo: modelo nao tem acesso confiavel a numero real de custo/tempo.
+
 ## 2026-07-18 — mode vira API de sessao, ganha think/output como eixos irmaos
 
 Motivo: critica inicial propunha manter `/ctxos:manual`/`/ctxos:autonomous`

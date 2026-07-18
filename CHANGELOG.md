@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.6.1 — status substitui header nas respostas
+
+- **Header removido.** Bloco `CTXOS / Mode / Think / Output` nao abre mais
+  nenhuma resposta operacional. `commands/mode.md` e `commands/output.md`
+  perderam a instrucao de emitir header — comportamento de mode/think/output
+  intacto, so a apresentacao mudou.
+- **`/ctxos:status` (novo).** `commands/status.md` — diagnostico read-only
+  sob demanda: `SESSION` (Mode/Think/Output correntes), `PROJECT` (index
+  atualizado ou deriva possivel via `last_scan.commit` vs `git rev-parse`,
+  contagem de nodes, contagem de Decision Records em memory, ultimo commit
+  relativo) e `RUNTIME` (Locate/Commit/Autonomous derivados so do `Mode`
+  corrente). Nunca escreve, nunca repara — leitura pura, mais barato que
+  `/ctxos:doctor` (nao recomputa fingerprint por INTEIRO).
+- **Fora de escopo desta rodada** (fica em `docs/parking-lot.md`): metrica
+  de token/custo/tempo de sessao, painel grafico/barra inferior.
+
 ## v0.6.0 — API de perfis de sessao: mode/think/output
 
 - **`/ctxos:mode manual|autonomous` (novo).** `commands/mode.md` vira fonte
