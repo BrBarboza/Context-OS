@@ -4,7 +4,9 @@ disable-model-invocation: true
 argument-hint: "[opcional: caminho/escopo a indexar; vazio = projeto inteiro]"
 ---
 
-`.ctxos/ledger/current.md` ja existe: index reconstroi tudo do zero, caro e redundante com locate/commit incrementais — avisar e pedir confirmacao antes de seguir.
+Antes de tudo: confirmar cwd real (`pwd`), nunca assumir a partir de memoria da conversa ou de projeto anterior na mesma sessao. Checagem de `.ctxos/` sempre le o disco no cwd atual.
+
+`.ctxos/ledger/current.md` ja existe nesse cwd: index reconstroi tudo do zero, caro e redundante com locate/commit incrementais — avisar e pedir confirmacao antes de seguir.
 
 1. Listar diretorios de 1o nivel relevantes. Ignorar `.git .ctxos node_modules dist build vendor` e afins. Git disponivel: usar `git ls-files` como atalho de listagem, nunca como fonte de verdade.
 2. Estimar tamanho por modulo: bytes totais / 4 ≈ tokens. Acima de ~30k tokens estimados → 1 subagente isolado por modulo, contexto proprio, so le o diretorio dele. Abaixo do limiar → thread principal le direto. Nunca leitura serial do projeto inteiro quando algum modulo estoura o limiar.

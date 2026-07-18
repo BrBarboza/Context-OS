@@ -7,7 +7,9 @@ disable-model-invocation: true
 **Experimental — fora do escopo da v1.** Congelado ate `docs/FIELD-TEST.md`
 confirmar a hipotese central. Nao remover, nao evoluir, nao discutir.
 
-Sem `.ctxos/ledger/current.md`: pare, avise "rode /ctxos:index primeiro" — doctor nao bootstrapa.
+Antes de tudo: confirmar cwd real (`pwd`), nunca assumir a partir de memoria da conversa ou de projeto anterior na mesma sessao.
+
+Sem `.ctxos/ledger/current.md` nesse cwd: pare, avise "rode /ctxos:index primeiro" — doctor nao bootstrapa.
 
 Contrato: doctor NUNCA escreve em `.ctxos/`. Nenhum passo abaixo repara nada — reparo e papel de `locate`/`commit`. Doctor so le e reporta.
 

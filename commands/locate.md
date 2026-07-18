@@ -3,7 +3,9 @@ description: Funil ROOT.md -> index do modulo -> arquivo/simbolo. Repara stalene
 argument-hint: "<pedido — o que voce vai mexer ou entender>"
 ---
 
-Sem `.ctxos/ledger/current.md`: pare, avise "rode /ctxos:index primeiro" — locate nao bootstrapa.
+Antes de tudo: confirmar cwd real (`pwd`), nunca assumir a partir de memoria da conversa ou de projeto anterior na mesma sessao.
+
+Sem `.ctxos/ledger/current.md` nesse cwd: pare, avise "rode /ctxos:index primeiro" — locate nao bootstrapa.
 
 Auto-invocacao (sem o usuario digitar `/ctxos:locate`): pedido ja nomeia o alvo exato ("editar Login.tsx", "corrigir a funcao parseDate em utils.ts") → NAO chamar, ja sabe onde mexer. Pedido conceitual/comportamental ("adicionar auth Google", "por que o botao de login as vezes nao aparece") → CHAMAR, alvo precisa ser localizado antes de tocar codigo. Toda decisao, chamada ou nao, grava 1 linha em `.ctxos/runtime/judgments.log`: `[data] locate:invocado|nao-invocado motivo:"<motivo curto>"` — calibracao futura, nunca exibido ao usuario.
 
