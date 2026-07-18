@@ -3,6 +3,40 @@
 Decision Records do proprio Context OS — nao do `.ctxos/memory` de um
 projeto consumidor (este repo nao roda ctxos sobre si mesmo).
 
+## 2026-07-18 — Axioma 3: Context OS controla o ambiente, nunca o modelo; think vira Experimental
+
+Motivo: field test v0.6 do eixo `think` (fast/normal/deep) falseou a
+hipotese que fundou o comando — fast custou mais tempo E mais token que
+normal (7m31s/32.1k vs 3m33s/17.6k), deep gastou mais token sem ganho de
+qualidade proporcional. Analise: `think` e o unico comando do ctxos que
+tenta controlar processo interno do modelo (orcamento cognitivo), nao
+ambiente externo — categoria estruturalmente diferente de
+index/locate/commit/mode/output, que sempre controlaram contexto/fluxo/
+memoria. Resultado formaliza principio:
+
+> **Axioma 3 — Context OS controla o ambiente, nunca o modelo.**
+>
+> O Context OS atua exclusivamente sobre elementos externos ao modelo:
+> contexto, fluxo de execucao e memoria do projeto. Nao tenta controlar
+> orcamento cognitivo, cadeia de pensamento ou esforco interno de
+> raciocinio do LLM. Sempre que possivel, a melhoria de qualidade deve vir
+> de informacao melhor, e nao de mais deliberacao.
+
+Resultado: `/ctxos:think` marcado `Status: Experimental` em
+`commands/think.md` — nao removido, resultado do field test documentado no
+proprio comando (deep/fast, achados, conclusao). Mantido so como registro
+de pesquisa, nao recomendado pra uso diario; reavaliar so com modelo novo
+ou dado novo. `/ctxos:output` NAO e afetado pelo Axioma 3 — formata texto
+final (superficie de geracao), categoria diferente de "esforco de
+raciocinio"; `/ctxos:mode` tambem nao e afetado — controla pausa/nao-pausa,
+checkpoint binario no ambiente, nao processo interno.
+
+Consequencia: as 5 linhas de pesquisa que emergem dessa conclusao
+(relacoes, confianca, historico, impacto, locate inteligente) NAO entram
+no `parking-lot.md` generico ("talvez um dia") — tem paternidade clara
+(consequencia direta do field test v0.6) e ganham documento proprio,
+`docs/VISION.md`.
+
 ## 2026-07-18 — header removido, `/ctxos:status` vira diagnostico sob demanda
 
 Motivo: header `CTXOS / Mode / Think / Output` cumpriu papel de validacao

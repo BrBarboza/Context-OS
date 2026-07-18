@@ -11,7 +11,7 @@
 [![Marketplace](https://img.shields.io/badge/Claude%20Marketplace-Context%20OS-orange)](https://github.com/BrBarboza/Context-OS)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Claude Code](https://img.shields.io/badge/Claude-Code-orange)
-![Version](https://img.shields.io/badge/version-v0.6.1-success)
+![Version](https://img.shields.io/badge/version-v0.6.2-success)
 ![Status](https://img.shields.io/badge/status-Stable-brightgreen)
 
 </p>
@@ -206,10 +206,10 @@ Além do modo de trabalho, o Context OS tem mais dois eixos independentes de con
 ```
 
 - **Mode** — como o agente trabalha. Manual (espera sua autorização) ou Autonomous (orquestra sozinho).
-- **Think** — quanto o agente raciocina antes de implementar. `fast` pra mudanças triviais, `normal` é o padrão, `deep` pra decisões arquiteturais complexas.
 - **Output** — quanto de detalhe ele devolve pra você. `compact` é um checklist enxuto, `verbose` explica decisões, nós e memória tocados.
+- **Think** *(experimental)* — quanto o agente raciocina antes de implementar. Field test v0.6 não achou benefício prático (`fast` ficou mais lento e mais caro que `normal`, `deep` gastou mais token sem ganho de qualidade). Mantido só como registro de pesquisa — ver `docs/DECISIONS.md` (Axioma 3) e `docs/VISION.md`.
 
-Os três são independentes. `mode autonomous` + `think fast` + `output compact` é um perfil válido; `mode manual` + `think deep` + `output verbose` também.
+Mode e Output são independentes entre si. `mode autonomous` + `output compact` é um perfil válido; `mode manual` + `output verbose` também.
 
 `/ctxos:manual` e `/ctxos:autonomous` continuam funcionando — são atalhos pra `/ctxos:mode manual` e `/ctxos:mode autonomous`.
 
@@ -342,11 +342,12 @@ Mais qualidade.
 - Commit de conhecimento
 - Modo Manual
 - Modo Autônomo
-- Perfis da sessão (`mode` / `think` / `output`)
+- Perfis da sessão (`mode` / `output`)
 - Diagnostico de sessao (`status`)
 
 ### Experimental
 
+- Think — ver `docs/VISION.md`
 - Doctor
 - Adapters
 - Integração com LoopTeam

@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.6.2 — think vira Experimental, Axioma 3, docs/VISION.md
+
+- **Field test v0.6 do `think` falseou a hipotese.** Fast: +7m31s/32.1k
+  contra 3m33s/17.6k do normal — mais lento E mais caro, qualidade visual
+  identica. Deep: mais token, sem ganho proporcional de qualidade. Dado
+  real, nao intuicao — mesmo padrao do field test que fundou o projeto.
+- **Axioma 3 (novo, `docs/DECISIONS.md`).** "Context OS controla o
+  ambiente, nunca o modelo." index/locate/commit/mode/output sempre
+  controlaram contexto/fluxo/memoria — elementos externos ao LLM. `think`
+  foi o unico a tentar controlar orcamento cognitivo do modelo (caixa-preta),
+  e foi o unico a falhar nos dados. `output` e `mode` explicitamente NAO
+  afetados pelo axioma (formatam texto final / controlam pausa — ambiente,
+  nao processo interno).
+- **`/ctxos:think` vira Experimental**, nao removido. `commands/think.md`
+  ganhou bloco `Status: Experimental` com resultado do field test embutido
+  no proprio comando. Mecanica (fast/normal/deep) intacta — so deixa de ser
+  recomendado pra uso diario. Reavaliar so com modelo novo ou dado novo.
+- **`docs/VISION.md` (novo).** 5 linhas de pesquisa nascidas da conclusao
+  do field test — relacoes, confianca, historico, impacto, locate
+  inteligente — todas `Status: Hipotese`, nenhuma implementada. Diferente
+  de `parking-lot.md` ("talvez um dia"): tem paternidade clara (consequencia
+  direta do experimento), por isso ganham documento proprio em vez de
+  virar 1 linha solta. Doc tambem formaliza categorias Core/Experimental/
+  Research pro projeto.
+- **README.** Roadmap: `think` sai de Estavel, entra em Experimental com
+  pointer pro VISION.md.
+
 ## v0.6.1 — status substitui header nas respostas
 
 - **Header removido.** Bloco `CTXOS / Mode / Think / Output` nao abre mais

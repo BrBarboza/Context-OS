@@ -1,8 +1,33 @@
 ---
-description: API de sessao pro esforco de raciocinio ANTES de implementar — fast (sem extended thinking, single-pass), normal (comportamento atual) ou deep (extended thinking / ultrathink, considera trade-offs e arquitetura). Nunca muda mode nem output.
+description: "[EXPERIMENTAL — ver resultado do field test v0.6 abaixo, nao recomendado pra uso diario] Esforco de raciocinio antes de implementar — fast/normal/deep. Nenhuma evidencia pratica de beneficio; mantido so como registro de pesquisa."
 argument-hint: "fast|normal|deep"
 disable-model-invocation: true
 ---
+
+```
+Status: Experimental
+
+Resultado do field test v0.6
+
+Deep
+✓ aumenta orcamento cognitivo
+≈ qualidade equivalente
+✗ maior custo
+
+Fast
+✗ aumentou tempo
+✗ aumentou tokens
+≈ qualidade equivalente
+
+Conclusao
+
+Nenhuma evidencia pratica de beneficio.
+
+Mantido apenas como experimento ate novos modelos
+ou novos dados justificarem reavaliacao.
+```
+
+Ver `docs/DECISIONS.md` (2026-07-18, Axioma 3) e `docs/VISION.md` pro raciocinio completo — Context OS controla ambiente (contexto/fluxo/memoria), nunca orcamento cognitivo do modelo. `think` foi o unico comando a tentar isso, e falhou nos dados reais.
 
 `$ARGUMENTS` nem `fast` nem `normal` nem `deep`: nao adivinhar, mostrar uso — `/ctxos:think fast|normal|deep`.
 
@@ -20,7 +45,7 @@ Aciona extended thinking (equivalente a "ultrathink") antes do passo de implemen
 
 ## Confirmacao
 
-Ativar em 1 linha: "Think: Fast" / "Think: Normal" / "Think: Deep".
+Ativar em 1 linha: "Think: Fast (experimental)" / "Think: Normal" / "Think: Deep (experimental)".
 
 ## Guardrail
 
