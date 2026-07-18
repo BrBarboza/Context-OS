@@ -1,6 +1,22 @@
-# Context OS (ctxos)
+<p align="center">
+  <img src="assets/ctxos-banner.png" alt="Context OS Banner" width="100%">
+</p>
 
-> Faça seu agente de IA trabalhar como se já conhecesse seu projeto.
+<p align="center">
+  Faça seu agente de IA trabalhar como se já conhecesse seu projeto.
+</p>
+
+<p align="center">
+
+[![Marketplace](https://img.shields.io/badge/Claude%20Marketplace-Context%20OS-orange)](https://github.com/BrBarboza/Context-OS)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Claude Code](https://img.shields.io/badge/Claude-Code-orange)
+![Version](https://img.shields.io/badge/version-v0.5.0-success)
+![Status](https://img.shields.io/badge/status-Stable-brightgreen)
+
+</p>
+
+---
 
 O **Context OS** é um plugin para o Claude Code que cria um mapa inteligente do seu código.
 
