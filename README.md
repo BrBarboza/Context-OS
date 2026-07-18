@@ -11,7 +11,7 @@
 [![Marketplace](https://img.shields.io/badge/Claude%20Marketplace-Context%20OS-orange)](https://github.com/BrBarboza/Context-OS)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Claude Code](https://img.shields.io/badge/Claude-Code-orange)
-![Version](https://img.shields.io/badge/version-v0.5.0-success)
+![Version](https://img.shields.io/badge/version-v0.6.0-success)
 ![Status](https://img.shields.io/badge/status-Stable-brightgreen)
 
 </p>
@@ -189,6 +189,44 @@ Todo o restante ele resolve sozinho.
 
 ---
 
+# Perfis da sessão
+
+Além do modo de trabalho, o Context OS tem mais dois eixos independentes de configuração.
+
+```bash
+/ctxos:mode manual
+/ctxos:mode autonomous
+
+/ctxos:think fast
+/ctxos:think normal
+/ctxos:think deep
+
+/ctxos:output compact
+/ctxos:output verbose
+```
+
+- **Mode** — como o agente trabalha. Manual (espera sua autorização) ou Autonomous (orquestra sozinho).
+- **Think** — quanto o agente raciocina antes de implementar. `fast` pra mudanças triviais, `normal` é o padrão, `deep` pra decisões arquiteturais complexas.
+- **Output** — quanto de detalhe ele devolve pra você. `compact` é um checklist enxuto, `verbose` explica decisões, nós e memória tocados.
+
+Os três são independentes. `mode autonomous` + `think fast` + `output compact` é um perfil válido; `mode manual` + `think deep` + `output verbose` também.
+
+`/ctxos:manual` e `/ctxos:autonomous` continuam funcionando — são atalhos pra `/ctxos:mode manual` e `/ctxos:mode autonomous`.
+
+Toda resposta mostra o estado atual:
+
+```text
+CTXOS
+Mode: Autonomous
+Think: Deep
+Output: Compact
+────────────────────────
+```
+
+Você nunca precisa lembrar o que ativou. Nenhum dos três é salvo em arquivo — sessão nova sempre volta pro padrão (`manual` / `normal` / `verbose`).
+
+---
+
 # Resultados reais
 
 O Context OS foi testado implementando exatamente o mesmo aplicativo com e sem ctxos.
@@ -285,6 +323,7 @@ Mais qualidade.
 - Commit de conhecimento
 - Modo Manual
 - Modo Autônomo
+- Perfis da sessão (`mode` / `think` / `output`)
 
 ### Experimental
 

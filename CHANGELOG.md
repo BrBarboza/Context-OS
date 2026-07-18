@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.6.0 — API de perfis de sessao: mode/think/output
+
+- **`/ctxos:mode manual|autonomous` (novo).** `commands/mode.md` vira fonte
+  unica de verdade do workflow — absorve a logica que antes vivia separada
+  em `manual.md`/`autonomous.md`. `/ctxos:manual` e `/ctxos:autonomous`
+  continuam existindo como atalhos de 1 linha pra `/ctxos:mode manual` e
+  `/ctxos:mode autonomous` (compat total, documentacao antiga nao quebra).
+- **`/ctxos:think fast|normal|deep` (novo).** `commands/think.md` — quanto
+  esforco de raciocinio antes de implementar. `fast` = sem extended
+  thinking, single-pass. `normal` = comportamento atual. `deep` = extended
+  thinking (ultrathink), considera trade-off/arquitetura. Escopo travado:
+  nunca toca `/ctxos:locate` ou `/ctxos:commit` (mecanica estrutural fixa),
+  nunca introduz pausa nova (isso e so `/ctxos:mode`).
+- **`/ctxos:output compact|verbose` (novo).** `commands/output.md` — nivel
+  de detalhe do resumo final. `compact` = checklist + arquivos tocados.
+  `verbose` = comportamento atual (decisoes/nos/memoria/raio). Escopo
+  travado: nunca infla a saida de `/ctxos:locate` (teto ≤12 linhas e
+  orcamento de token fixo, nao preferencia), nunca muda o que
+  `/ctxos:commit` escreve em `.ctxos/`.
+- **Header de sessao.** Toda resposta que envolve trabalho de `/ctxos:mode`
+  ativo abre com bloco `Mode:`/`Think:`/`Output:` — visibilidade sem
+  precisar perguntar.
+- **Sem estado persistido em arquivo.** Os 3 eixos vivem na conversa, igual
+  o mode ja vivia desde v0.5.0 — sessao nova sempre reseta pra
+  `manual`/`normal`/`verbose`. Decisao deliberada: um arquivo de sessao em
+  `.ctxos/runtime/` seria commitado no repo do projeto-alvo, virando 2a
+  fonte de verdade pra preferencia pessoal (seria exatamente o tipo de
+  acoplamento que `docs/LOOPTEAM.md` ja rejeitou pelo Axioma 0).
+- **README.** Nova secao "Perfis da sessão" apos Modo Autônomo. Primeiros
+  30 segundos do README (index → manual/autonomous → pronto) intactos —
+  think/output sao knobs opcionais, fora do fluxo de onboarding.
+
 ## v0.5.0 — dual-mode: Manual e Autonomous
 
 - **Field test da v1 encerrado antecipadamente.** Uso real (Ezer)

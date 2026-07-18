@@ -3,6 +3,33 @@
 Decision Records do proprio Context OS — nao do `.ctxos/memory` de um
 projeto consumidor (este repo nao roda ctxos sobre si mesmo).
 
+## 2026-07-18 — mode vira API de sessao, ganha think/output como eixos irmaos
+
+Motivo: critica inicial propunha manter `/ctxos:manual`/`/ctxos:autonomous`
+como comandos soltos e adicionar `think`/`output` tambem soltos — ergonomia
+minima pra v0.5, mas sem forma consistente de crescer (proximo eixo viraria
+mais um comando com convencao propria). Decisao do dono do projeto: `mode`
+deixa de ser so alias de manual/autonomous e vira o padrao que toda
+configuracao de sessao segue (`/ctxos:<eixo> <valor>`), com
+`/ctxos:manual`/`/ctxos:autonomous` mantidos como atalhos — nunca removidos,
+nunca quebrando doc/uso existente. Precedente: Git faz o mesmo (varios
+comandos de superficie sao alias de forma canonica interna).
+
+Resultado: `commands/mode.md` (novo, fonte unica de verdade do workflow,
+absorve o que antes vivia em `manual.md`/`autonomous.md`), `commands/think.md`
+(novo) e `commands/output.md` (novo). `manual.md`/`autonomous.md` viram
+atalho de 1 linha. Guardrails mantidos da critica original: think/output
+nunca tocam mecanica estrutural de locate/commit, nunca introduzem pausa
+(so mode controla pausa), nunca ganham estado persistido em arquivo (mesma
+razao que mode ja seguia desde v0.5.0 — arquivo de sessao em
+`.ctxos/runtime/` seria commitado no projeto-alvo, virando 2a fonte de
+verdade pra preferencia pessoal).
+
+Nao adotado desta rodada: persistir mode/think/output em arquivo pro
+statusline do Claude Code renderizar metricas de sessao (tokens/custo/painel
+visual estilo Ruflo) — fica em `docs/parking-lot.md`, e subsistema
+proprio, nao knob de comando.
+
 ## 2026-07-17 — encerrar field test da v1 antecipadamente, adotar dual-mode
 
 Motivo: uso real no projeto Ezer mostrou que locate/commit funcionam
