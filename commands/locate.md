@@ -17,4 +17,12 @@ Auto-invocacao (sem o usuario digitar `/ctxos:locate`): pedido ja nomeia o alvo 
 6. Puxar `.ctxos/memory/<no>.md` de cada no envolvido (bloco "estado atual" se compactado, ou os ultimos Decision Records).
 7. Fallback — funil nao resolveu: grep/glob direto no codigo. Achou algo → declarar "via busca, index nao cobriu — no novo nasce no proximo commit". Grep tambem nao achou nada relevante → saida obrigatoria "NOVO CONCEITO — nenhum no existente cobre '$ARGUMENTS'. O trabalho criara estrutura nova; o commit criara o(s) no(s)." Nunca terminar mudo. Nunca criar index aqui, so em commit.
 
-Saida ≤12 linhas, sem prosa: no(s) + raio (arestas relevantes) + memoria relevante (1 linha por decisao) + lista minima de arquivos a carregar (ou NOVO CONCEITO). Nada de recomendacao de implementacao — locate acha, nao decide.
+## Confianca
+
+Toda saida abre com exatamente 1 dos 3 estados abaixo — nunca percentual, nunca score continuo (rejeitado em `docs/DECISIONS.md`, 2026-07-17):
+
+- `✓ Match` — funil resolveu 1 no/arquivo claro (fingerprint fresco ou reparado no passo 3).
+- `⚠ Ambiguous — N candidatos` — passo 4 (abrir arquivos-chave) nao convergiu pra 1 alvo unico.
+- `✗ No match` — cobre o branch NOVO CONCEITO do passo 7; rotulo formal do que ja era declarado em prosa.
+
+Saida ≤12 linhas, sem prosa: estado de confianca + no(s) + raio (arestas relevantes) + memoria relevante (1 linha por decisao) + lista minima de arquivos a carregar (ou NOVO CONCEITO). Nada de recomendacao de implementacao — locate acha, nao decide.

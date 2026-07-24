@@ -11,18 +11,14 @@
 [![Marketplace](https://img.shields.io/badge/Claude%20Marketplace-Context%20OS-orange)](https://github.com/BrBarboza/Context-OS)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Claude Code](https://img.shields.io/badge/Claude-Code-orange)
-![Version](https://img.shields.io/badge/version-v0.6.2-success)
+![Version](https://img.shields.io/badge/version-v0.7.0-success)
 ![Status](https://img.shields.io/badge/status-Stable-brightgreen)
 
 </p>
 
 ---
 
-O **Context OS** é um plugin para o Claude Code que cria um mapa inteligente do seu código.
-
-Em vez da IA explorar o projeto inteiro a cada tarefa ou trabalhar "no escuro", o ctxos localiza apenas o contexto necessário, lembra decisões anteriores e mantém esse conhecimento atualizado conforme o projeto evolui.
-
-O resultado é um agente que faz implementações muito mais consistentes em projetos grandes.
+O **Context OS** é um plugin para o Claude Code que cria um mapa inteligente do seu código, pra que a IA nunca mais precise redescobrir o projeto do zero a cada pedido.
 
 ---
 
@@ -38,23 +34,13 @@ Toda vez que você pede uma alteração para uma IA, ela precisa descobrir coisa
 
 Sem contexto, boa parte do esforço da IA é simplesmente entender o projeto novamente.
 
-O **Context OS** transforma esse processo em conhecimento permanente.
+O **Context OS** transforma esse processo em conhecimento permanente — o agente passa a trabalhar como alguém que já conhece a base de código.
 
 ---
 
-# O que ele faz?
+# Como funciona
 
-Durante o desenvolvimento ele mantém um mapa vivo do projeto.
-
-A cada implementação ele consegue:
-
-- localizar apenas o código relevante
-- evitar procurar arquivos desnecessários
-- lembrar decisões já tomadas
-- atualizar automaticamente esse conhecimento
-- manter a arquitetura consistente conforme o projeto cresce
-
-Na prática, o agente passa a trabalhar como alguém que já conhece a base de código.
+Durante o desenvolvimento ele mantém um mapa vivo do projeto — o que localiza apenas o código relevante pra cada pedido, lembra decisões já tomadas, e atualiza esse conhecimento sozinho conforme o projeto muda.
 
 ---
 
@@ -75,42 +61,40 @@ Indexe o projeto apenas uma vez.
 /ctxos:index
 ```
 
-Depois escolha como deseja trabalhar.
-
-```bash
-/ctxos:manual
-```
-
-ou
-
-```bash
-/ctxos:autonomous
-```
-
-Pronto.
+Escolha como você quer trabalhar (ver abaixo) e pronto — descreva o que quer, o ctxos cuida do resto.
 
 ---
 
-# Modo Manual
+# Como você quer trabalhar?
 
-Você controla cada etapa.
+```bash
+/ctxos:config profile backend
+```
 
-O agente:
+| Profile | | Quando usar |
+|---|---|---|
+| **`backend`** | ✓ trabalha sozinho · ✓ respostas curtas | CRUD, API, banco de dados, lote de tarefas rápidas |
+| **`frontend`** | ✓ trabalha sozinho · ✓ explica alterações | Mudança de UI, quer acompanhar o que mudou visualmente |
+| **`architect`** | ✓ pede confirmação · ✓ explica tudo | Refactor grande, mudança estrutural, decisão arquitetural |
+| **`reviewer`** | ✓ pede confirmação · ✓ respostas curtas | Acompanhar passo a passo sem prosa |
 
-- encontra o contexto
-- espera autorização
-- implementa
-- espera autorização
-- atualiza o mapa do projeto
+Escolheu um, acabou. Preferência persiste — `/clear` ou sessão nova no mesmo projeto retomam o mesmo profile.
 
-Ideal para:
+Quer misturar comportamentos manualmente em vez de usar um preset? Ver **Configuração avançada** no fim.
 
-- refatorações delicadas
-- debugging
-- mudanças arquiteturais
-- investigação
+---
 
-Exemplo:
+# Exemplos de uso
+
+## Trabalha sozinho (`backend`/`frontend`)
+
+```text
+Remove a navbar da tela de checkout.
+```
+
+O ctxos executa locate → implementação → commit sozinho, sem novos comandos. Só interrompe pra decisão que foge do código — banco de dados, infraestrutura, CI/CD, nova dependência, novo conceito arquitetural.
+
+## Pede confirmação (`architect`/`reviewer`)
 
 ```text
 Você
@@ -121,6 +105,7 @@ Você
 
 ctxos
 
+✓ Match
 Arquivos encontrados:
 - auth.ts
 - login.tsx
@@ -138,9 +123,7 @@ Pode implementar.
 
 ctxos
 
-Implementado.
-
-Aguardando commit.
+Implementado. Aguardando commit.
 
 ↓
 
@@ -151,69 +134,9 @@ Você
 
 ---
 
-# Modo Autônomo
+# Status
 
-Você conversa normalmente.
-
-Exemplo:
-
-```text
-Remove a navbar da tela de checkout.
-```
-
-O ctxos executa automaticamente:
-
-```
-Locate
-
-↓
-
-Implementação
-
-↓
-
-Commit
-```
-
-sem precisar de novos comandos.
-
-Ele só interrompe quando encontra decisões que fogem do código, como:
-
-- banco de dados
-- infraestrutura
-- CI/CD
-- novas dependências
-- novos conceitos arquiteturais
-
-Todo o restante ele resolve sozinho.
-
----
-
-# Perfis da sessão
-
-Além do modo de trabalho, o Context OS tem mais dois eixos independentes de configuração.
-
-```bash
-/ctxos:mode manual
-/ctxos:mode autonomous
-
-/ctxos:think fast
-/ctxos:think normal
-/ctxos:think deep
-
-/ctxos:output compact
-/ctxos:output verbose
-```
-
-- **Mode** — como o agente trabalha. Manual (espera sua autorização) ou Autonomous (orquestra sozinho).
-- **Output** — quanto de detalhe ele devolve pra você. `compact` é um checklist enxuto, `verbose` explica decisões, nós e memória tocados.
-- **Think** *(experimental)* — quanto o agente raciocina antes de implementar. Field test v0.6 não achou benefício prático (`fast` ficou mais lento e mais caro que `normal`, `deep` gastou mais token sem ganho de qualidade). Mantido só como registro de pesquisa — ver `docs/DECISIONS.md` (Axioma 3) e `docs/VISION.md`.
-
-Mode e Output são independentes entre si. `mode autonomous` + `output compact` é um perfil válido; `mode manual` + `output verbose` também.
-
-`/ctxos:manual` e `/ctxos:autonomous` continuam funcionando — são atalhos pra `/ctxos:mode manual` e `/ctxos:mode autonomous`.
-
-Pra consultar o estado atual sem procurar nas respostas:
+Consulta o estado atual sem precisar procurar nas respostas:
 
 ```bash
 /ctxos:status
@@ -224,9 +147,9 @@ Context OS
 
 SESSION
 ────────────────────────
-Mode.............Autonomous
+Mode.............Autonomous (persistido)
 Think............Deep
-Output...........Compact
+Output...........Compact (profile: backend)
 
 PROJECT
 ────────────────────────
@@ -242,115 +165,58 @@ Commit...........Ativo
 Autonomous.......Ativo
 ```
 
-Nenhum dos três é salvo em arquivo — sessão nova sempre volta pro padrão (`manual` / `normal` / `verbose`).
-
 ---
 
-# Resultados reais
+# Benchmark
 
-O Context OS foi testado implementando exatamente o mesmo aplicativo com e sem ctxos.
+O Context OS foi testado implementando exatamente o mesmo aplicativo, com e sem ctxos.
 
-## Claude Code (normal)
+| | Claude Code (normal) | Claude Code + Context OS |
+|---|---|---|
+| Interações | 46 | 91 |
+| Tempo | 7min 39s | 23min 12s |
+| Tokens | 117,9 mil | 381,7 mil |
+| Custo | US$ 3,32 | US$ 10,54 |
+| Resultado | Boa aplicação, ainda exigiria horas de ajuste manual | Arquitetura reorganizada, componentes extraídos, docs e decisões registradas — praticamente pronto pra continuidade |
 
-- **46 interações**
-- **7 minutos e 39 segundos**
-- **117,9 mil tokens**
-- **US$ 3,32**
+## Conclusão
 
-Resultado:
-
-Entregou uma boa aplicação, mas ainda exigiria várias horas de ajustes manuais para chegar ao nível esperado.
-
----
-
-## Claude Code + Context OS
-
-- **91 interações**
-- **23 minutos e 12 segundos**
-- **381,7 mil tokens**
-- **US$ 10,54**
-
-Resultado:
-
-Entregou uma aplicação muito mais refinada, incluindo:
-
-- reorganização da arquitetura
-- extração de componentes reutilizáveis
-- separação de módulos
-- padronização visual
-- atualização da documentação
-- registro das decisões do projeto
-- atualização automática do mapa de contexto
-
-O projeto praticamente não precisava mais de refinamentos.
-
----
-
-# O que aprendemos
-
-O objetivo inicial era reduzir tokens.
-
-Os testes mostraram exatamente o contrário.
-
-O ctxos consumiu aproximadamente:
-
-- **98% mais interações**
-- **203% mais tempo**
-- **224% mais tokens**
-- **217% mais custo**
-
-Mesmo assim, o resultado final foi significativamente superior.
-
-Enquanto a implementação tradicional entregou um projeto que ainda precisaria de vários dias de refinamento, o projeto desenvolvido com ctxos já saiu praticamente pronto para continuidade.
-
-O custo adicional veio porque o agente passou mais tempo:
-
-- entendendo relações do projeto;
-- reorganizando a arquitetura;
-- reaproveitando componentes;
-- mantendo consistência entre módulos;
-- registrando conhecimento para as próximas tarefas.
-
-Em outras palavras:
+O ctxos consumiu ~98% mais interações, ~203% mais tempo, ~224% mais tokens, ~217% mais custo — e ainda assim entregou um resultado muito superior.
 
 > **O Context OS não faz a IA trabalhar menos. Faz a IA trabalhar melhor.**
 
 ---
 
-# Filosofia
+# Configuração avançada
 
-A maioria dos agentes começa cada tarefa quase do zero.
+`profile` é preset de 2 eixos independentes — mexa neles direto se quiser combinação fora da tabela acima:
 
-O Context OS mantém um entendimento contínuo do projeto.
+```bash
+/ctxos:config mode manual
+/ctxos:config mode autonomous
 
-Menos redescoberta.
+/ctxos:config output compact
+/ctxos:config output verbose
+```
 
-Mais implementação.
+- **Mode** — Manual (espera autorização a cada etapa) ou Autonomous (orquestra sozinho).
+- **Output** — `compact` é checklist enxuto; `verbose` explica decisões, nós e memória tocados.
+- **Think** *(experimental)* — quanto o agente raciocina antes de implementar. Field test não achou benefício prático, fica fora do `config` unificado — ver `docs/VISION.md`.
 
-Mais consistência.
+`/ctxos:mode`, `/ctxos:output`, `/ctxos:manual` e `/ctxos:autonomous` continuam funcionando — são Compatibility Commands, redirecionam pra `/ctxos:config` por baixo, sem prazo de remoção.
 
-Mais qualidade.
+> **Persistência:** Mode e Output são preferência pessoal e ficam fora do repositório (`~/.ctxos/projects/<hash>/config.json`). Sobrevivem a `/clear`, nunca vão pro Git, nunca são levados num clone em outra máquina. `Think` nunca persiste.
 
 ---
 
 # Roadmap
 
-### Estável
+Em pesquisa, fora do core estável (`index`/`locate`/`commit`/`config`/`status`):
 
-- Indexação do projeto
-- Localização inteligente de contexto
-- Commit de conhecimento
-- Modo Manual
-- Modo Autônomo
-- Perfis da sessão (`mode` / `output`)
-- Diagnostico de sessao (`status`)
-
-### Experimental
-
-- Think — ver `docs/VISION.md`
-- Doctor
-- Adapters
-- Integração com LoopTeam
+- **Think** — ver `docs/VISION.md`
+- **Doctor**
+- **Adapters**
+- **Integração com LoopTeam**
 
 ---
 

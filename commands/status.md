@@ -9,6 +9,8 @@ Le e reporta, nunca escreve. 3 blocos.
 
 `Mode`/`Think`/`Output` correntes desta conversa — default `Manual`/`Normal`/`Verbose` se nenhum dos 3 foi chamado ainda nesta sessao.
 
+`Mode` e `Output` ganham origem entre parenteses, na ordem de precedencia de `/ctxos:config`: `(override)` se foi setado explicitamente nesta conversa; `(profile: <nome>)` se veio de `/ctxos:config profile`; `(persistido)` se veio do arquivo `~/.ctxos/projects/<hash>/config.json` sem override nesta conversa; `(default)` se nenhum dos anteriores. `Think` nao tem origem — nunca persiste, sempre reseta pra `Normal`.
+
 ## PROJECT
 
 Sem `.ctxos/ledger/current.md`: reportar "Nao indexado — rode /ctxos:index primeiro" e parar aqui, pular RUNTIME.
@@ -34,9 +36,9 @@ Context OS
 
 SESSION
 ────────────────────────
-Mode.............<Manual|Autonomous>
+Mode.............<Manual|Autonomous> (<override|profile: nome|persistido|default>)
 Think............<Fast|Normal|Deep>
-Output...........<Compact|Verbose>
+Output...........<Compact|Verbose> (<override|profile: nome|persistido|default>)
 
 PROJECT
 ────────────────────────

@@ -3,6 +3,89 @@
 Decision Records do proprio Context OS — nao do `.ctxos/memory` de um
 projeto consumidor (este repo nao roda ctxos sobre si mesmo).
 
+## 2026-07-24 — Fingerprint binario no locate, versao restrita de Confianca
+
+Problema: `docs/VISION.md` propunha "Confianca" como linha de pesquisa —
+expor o proprio fingerprint (match/mismatch) do locate como sinal de
+certeza, em vez de silencio. Faltava decidir o formato exato de
+superficie.
+
+Alternativas consideradas: score continuo (percentual) — ja rejeitado
+em 2026-07-17 (calibracao permanente viola Axioma 0, usuario sempre
+pergunta "por que 73 e nao 71"); pipeline que decide sozinho se mostra
+ou nao o estado — reintroduziria heuristica de fluxo sem dado coletado,
+mesma categoria de risco do `think` (Axioma 3).
+
+Decisao: locate abre toda saida com exatamente 1 de 3 estados textuais —
+`✓ Match`, `⚠ Ambiguous — N candidatos`, `✗ No match` (rotulo formal do
+branch NOVO CONCEITO ja existente). Sem percentual, sem escala. Nao
+soma linha ao teto de ≤12 linhas — substitui silencio implicito por 1
+linha explicita.
+
+Consequencia: `commands/locate.md` ganha secao "Confianca" antes do
+contrato de saida. `docs/VISION.md` marca a linha de pesquisa Confianca
+como implementada nesta forma restrita — score continuo e pipeline
+adaptativo por confianca continuam fora, em categorias diferentes (o
+primeiro rejeitado, o segundo Research/Hipotese).
+
+## 2026-07-24 — `/ctxos:config` absorve mode/output; mode/output viram Compatibility Commands
+
+Motivo: uso real mostrou friccao — `mode`/`output`/`think` como 3
+comandos soltos (v0.6.0) cresce mal a cada eixo novo, e usuario
+reconfigura os mesmos 2 valores toda sessao nova. Mesmo precedente ja
+usado em 2026-07-18 (mode absorveu manual/autonomous): comando novo
+vira fonte unica, comandos antigos viram redirecionamento fino.
+
+Decisao: `commands/config.md` (novo) absorve a logica hoje em
+`commands/mode.md` + `commands/output.md`, mais um eixo novo `profile`
+(preset opinativo que seta mode+output de uma vez — ver tabela no
+proprio arquivo) e a logica de persistencia (proxima entrada).
+`mode.md`/`output.md` colapsam pra alias de 1 linha, mesmo formato que
+`manual.md`/`autonomous.md` ja usam.
+
+Terminologia: chamamos `mode`/`output`/`manual`/`autonomous` de
+**Compatibility Commands**, nao "alias permanente" — evita a leitura de
+"promessa eterna imutavel"; permite no futuro dizer "continuam
+suportados" ou "entraram em modo legado" sem soar quebra de contrato.
+Por ora: sem aviso de deprecated, sem remocao planejada, mesmo
+precedente de manual/autonomous ("nunca removidos, nunca quebrando
+doc/uso existente").
+
+`think` fica de fora do `config` unificado — continua eixo separado e
+Experimental (Axioma 3); misturar no mesmo comando promoveria ele de
+volta a eixo igual aos outros, contradizendo a conclusao do field test.
+
+## 2026-07-24 — Persistencia de Mode/Output fora do repo, por projeto
+
+Motivo: 2026-07-18 decidiu deliberadamente NAO persistir mode/think/
+output em arquivo, porque um arquivo em `.ctxos/runtime/` seria
+commitado no repo do projeto-alvo — 2a fonte de verdade pra preferencia
+pessoal, vazando de um dev pro outro via git. Uso real confirmou o
+custo do outro lado: sem persistencia nenhuma, `/clear` (ou sessao
+nova) reseta Mode/Output toda vez, e usuario reconfigura os mesmos
+valores repetidamente.
+
+Alternativas consideradas: `.ctxos/config.json` dentro do repo (mesmo
+problema de 2026-07-18, so muda o nome do arquivo); persistir em
+`.ctxos/runtime/` com `.gitignore` automatico (fragil — depende do
+usuario nao versionar `.ctxos/` inteiro, ou de gitignore ja existente
+cobrir o caminho certo).
+
+Decisao: preferencia pessoal vive fora do repo, em
+`~/.ctxos/projects/<hash>/config.json` (`<hash>` = 12 hex de sha256 do
+caminho absoluto do projeto — mesma primitiva de fingerprint que
+index/locate/commit ja usam). Nunca git, nunca 2a fonte de verdade do
+projeto — chave por projeto (hash do path) permite 2 projetos com
+config independente na mesma maquina. Leitura lazy (so na 1a invocacao
+de um comando ctxos na conversa, nunca no inicio incondicional); escrita
+write-through a cada `mode`/`output`/`profile` setado.
+
+Consequencia: reforca a decisao de 2026-07-18 em vez de contraria-la —
+o problema evitado (preferencia pessoal virando estado do projeto) so
+existia por causa de ONDE o arquivo ficava, nao por persistir ou nao.
+`think` continua sem persistencia (nunca ganhou pedido de uso diario
+suficiente pra justificar, e continua Experimental).
+
 ## 2026-07-18 — Axioma 3: Context OS controla o ambiente, nunca o modelo; think vira Experimental
 
 Motivo: field test v0.6 do eixo `think` (fast/normal/deep) falseou a

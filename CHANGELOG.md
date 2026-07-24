@@ -1,5 +1,51 @@
 # Changelog
 
+## v0.7.0 — `/ctxos:config` unificado, persistencia por projeto, fingerprint binario no locate
+
+- **`commands/config.md` (novo).** Fonte unica de verdade pra Mode/Output/
+  Profile — absorve a logica hoje em `mode.md`+`output.md` (mesmo
+  precedente de 2026-07-18, quando `mode.md` absorveu `manual.md`/
+  `autonomous.md`). Ganha eixo novo `profile` (preset opinativo que seta
+  Mode+Output de uma vez: `architect` manual/verbose, `reviewer`
+  manual/compact, `backend` autonomous/compact, `frontend`
+  autonomous/verbose — cobre a matriz 2x2 inteira). Precedencia explicita
+  documentada: override desta conversa > config persistido > default.
+- **Persistencia de Mode/Output, fora do repo.** `~/.ctxos/projects/<hash>/config.json`
+  (`<hash>` = 12 hex de sha256 do caminho absoluto do projeto, mesma
+  primitiva de fingerprint de index/locate/commit). Nunca git, nunca 2a
+  fonte de verdade do projeto, nunca contamina outro dev num clone —
+  reforca a decisao de 2026-07-18 em vez de contraria-la (o problema
+  evitado era ONDE o arquivo ficava, nao a persistencia em si). Leitura
+  lazy (1a invocacao de um comando ctxos na conversa), escrita
+  write-through imediata a cada `mode`/`output`/`profile` setado.
+- **`mode.md`/`output.md` viram Compatibility Commands.** Colapsam pra
+  alias de 1 linha, redirecionam pra `/ctxos:config`. Sem aviso de
+  deprecated, sem remocao planejada — mesmo precedente que `manual.md`/
+  `autonomous.md` ja seguem. `think` fica de fora do `config` unificado,
+  continua Experimental e isolado (Axioma 3).
+- **Fingerprint binario no `/ctxos:locate`.** Toda saida abre com
+  `✓ Match` / `⚠ Ambiguous — N candidatos` / `✗ No match` (rotulo formal
+  do branch NOVO CONCEITO ja existente). Nunca percentual, nunca score
+  continuo — essa versao restrita e a que `docs/VISION.md` ja propunha
+  pra linha de pesquisa Confianca; score continuo permanece rejeitado
+  (2026-07-17). Nao expande o teto de ≤12 linhas.
+- **`/ctxos:status`.** Bloco SESSION ganha origem por eixo — `(override)`,
+  `(profile: nome)`, `(persistido)` ou `(default)` — pra Mode/Output.
+  `Think` continua sem origem, nunca persiste.
+- **`docs/DECISIONS.md`.** 3 entradas novas (persistencia, config
+  unificado + Compatibility Commands, fingerprint binario).
+  **`docs/VISION.md`.** Linha de pesquisa Confianca marca a versao
+  binaria como Implementada; score continuo e pipeline adaptativo
+  continuam Research. Nova secao "Mudanca de filosofia" — v0.5-v0.6.2
+  priorizou capacidade (comando novo por eixo), v0.7 em diante prioriza
+  ergonomia (menos superficie, mesma capacidade).
+  **`docs/parking-lot.md`.** Pipeline adaptativo registrado como Research
+  a medir via `.ctxos/runtime/judgments.log` antes de virar comando —
+  distinto de confidence continuo, que e rejeitado, nao estacionado.
+- **README.** Secao "Perfis da sessão" reescrita em torno de `/ctxos:config`
+  + tabela de profiles + nota de persistencia. Roadmap Estavel ganha
+  `config` (com persistencia) e fingerprint binario do locate.
+
 ## v0.6.2 — think vira Experimental, Axioma 3, docs/VISION.md
 
 - **Field test v0.6 do `think` falseou a hipotese.** Fast: +7m31s/32.1k
